@@ -27,9 +27,9 @@ export default {
 <style scoped>
 .todo {
   display: grid;
-  grid-template-columns: 1fr 5fr 1fr;
-  grid-template-rows: minmax(40px);
-  width: 300px;
+  grid-template-columns: 0.5fr 6fr 1fr;
+  grid-template-rows: minmax(50px);
+  width: 350px;
   border-bottom: 2px solid green;
   margin: auto;
   margin-top: 5px;
@@ -112,4 +112,9 @@ export default {
 /* .todo input[type="checkbox"]:focus + label::before {
   outline: rgb(59, 153, 252) auto 5px;
 } */
+label {
+  font-size: 0.9rem;
+  overflow: hidden;
+  padding: 2px;
+}
 </style>
