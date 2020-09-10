@@ -2,7 +2,7 @@
   <div>
     <div class="todo" :class="{ done: done }">
       <input type="checkbox" v-model="done" :id="todo.id" />
-      <label :for="todo.id">{{ todo.text }}</label>
+      <label :for="todo.id" v-on:click="$emit('checktodo', todo.id)">{{ todo.text }}</label>
       <span>
         <button class="btn" v-on:click="$emit('deletetodo', todo.id)">&times;</button>
       </span>
@@ -14,13 +14,13 @@
 export default {
   name: "Todo",
   props: {
-    todo: Object
+    todo: Object,
   },
   data() {
     return {
-      done: this.todo.done
+      done: this.todo.done,
     };
-  }
+  },
 };
 </script>
 

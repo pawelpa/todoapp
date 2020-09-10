@@ -2,39 +2,56 @@
   <div id="app">
     <h1>Todo App v1.0</h1>
     <AddTodo v-on:addtodo="addtodo" />
-    <Todo v-on:deletetodo="deletetodo" v-for="todo of todos" :key="todo.id" :todo="todo" />
+    <Todo
+      v-on:deletetodo="deletetodo"
+      v-on:checktodo="checktodo"
+      v-for="todo of todos"
+      :key="todo.id"
+      :todo="todo"
+    />
+    <StatusBar v-if="todos.length > 0" :todos="todos" />
   </div>
 </template>
 
 <script>
 import Todo from "./components/Todo.vue";
 import AddTodo from "./components/AddTodo.vue";
+import StatusBar from "./components/StatusBar.vue";
 export default {
   name: "App",
   components: {
     Todo,
-    AddTodo
+    AddTodo,
+    StatusBar,
   },
   methods: {
     addtodo(todo) {
       this.todos = [
         ...this.todos,
-        { id: Math.random() * 255, text: todo, done: false }
+        { id: Math.random() * 255, text: todo, done: false },
       ];
-      console.log(todo);
+      //console.log(todo);
+    },
+    checktodo(id) {
+      console.log(id);
+      this.todos.forEach((todo) => {
+        if (todo.id === id) {
+          return (todo.done = !todo.done);
+        }
+      });
     },
     deletetodo(id) {
-      this.todos = this.todos.filter(i => i.id != id);
-    }
+      this.todos = this.todos.filter((i) => i.id != id);
+    },
   },
   data() {
     return {
       todos: [
         { id: 1, text: "Todo one", done: false },
-        { id: 2, text: "Todo two", done: true }
-      ]
+        { id: 2, text: "Todo two", done: false },
+      ],
     };
-  }
+  },
 };
 </script>
 
