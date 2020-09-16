@@ -38,6 +38,7 @@ export default {
   overflow: hidden;
   cursor: pointer;
   position: relative;
+  border-radius: 5px;
 }
 
 .btn {
@@ -57,6 +58,7 @@ export default {
 .todo label {
   position: relative;
   display: inline-block;
+  word-wrap: normal;
 
   /*16px width of fake checkbox + 6px distance between fake checkbox and text*/
   padding-left: 22px;

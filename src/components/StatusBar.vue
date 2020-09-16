@@ -1,5 +1,5 @@
 <template>
-  <div class="status">Todo left: {{this.todoLeft}}</div>
+  <div class="status">Items left: {{this.todoLeft}}</div>
 </template>
 
 <script>
@@ -25,5 +25,6 @@ export default {
   height: 1.2rem;
   text-align: left;
   background-color: khaki;
+  border-radius: 5px;
 }
 </style>

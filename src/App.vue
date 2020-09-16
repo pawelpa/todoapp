@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>Todo App v1.0</h1>
+    <h1>Todo App</h1>
     <AddTodo v-on:addtodo="addtodo" />
     <Todo
       v-on:deletetodo="deletetodo"
@@ -48,7 +48,7 @@ export default {
     return {
       todos: [
         { id: 1, text: "Todo one", done: false },
-        { id: 2, text: "Todo two", done: false },
+        { id: 2, text: "Todo two", done: true },
       ],
     };
   },
