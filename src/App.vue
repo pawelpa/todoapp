@@ -9,7 +9,11 @@
       :key="todo.id"
       :todo="todo"
     />
-    <StatusBar v-if="todos.length > 0" :todos="todos" />
+    <StatusBar 
+    v-on:all="customFilter('all')"
+    v-on:left="customFilter('left')"
+    v-on:done="customFilter('done')"
+    :todos="todos" />
   </div>
 </template>
 
@@ -17,6 +21,7 @@
 import Todo from "./components/Todo.vue";
 import AddTodo from "./components/AddTodo.vue";
 import StatusBar from "./components/StatusBar.vue";
+import {v4 as uuid} from 'uuid';
 export default {
   name: "App",
   components: {
@@ -25,12 +30,28 @@ export default {
     StatusBar,
   },
   methods: {
+    customFilter(what) {
+       switch(what) {
+         case 'done': console.log('done');
+                this.todos = this.backupTodos.filter((t)=>t.done === true)
+          break;
+         case 'all': console.log('all');
+            if(this.backupTodos.length > this.todos.length) {
+                  this.todos = this.backupTodos;
+              }
+         break;
+         case 'left': console.log('left');
+               this.todos = this.backupTodos.filter((t)=>t.done !== true )
+         break;
+       }
+    },
     addtodo(todo) {
       this.todos = [
         ...this.todos,
-        { id: Math.random() * 255, text: todo, done: false },
+        { id: uuid(), text: todo, done: false },
       ];
       //console.log(todo);
+      this.backupTodos = this.todos;
     },
     checktodo(id) {
       console.log(id);
@@ -39,19 +60,29 @@ export default {
           return (todo.done = !todo.done);
         }
       });
+      this.backupTodos = this.todos;
     },
     deletetodo(id) {
       this.todos = this.todos.filter((i) => i.id != id);
+      this.backupTodos = this.tods;
     },
   },
   data() {
     return {
       todos: [
-        { id: 1, text: "Todo one", done: false },
-        { id: 2, text: "Todo two", done: true },
+        { id: uuid(), text: "Todo one", done: false },
+        { id: uuid(), text: "Todo two", done: true },
       ],
+      backupTodos: [],
     };
   },
+  mounted() {
+    this.backupTodos = this.todos;
+  }
+    
+  
+
+ 
 };
 </script>
 
