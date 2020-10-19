@@ -40,9 +40,8 @@ export default {
           this.active = "done";
           break;
         case "all":
-          if (this.backupTodos.length > this.todos.length) {
-            this.todos = this.backupTodos;
-          }
+          this.todos = this.backupTodos;
+           
           this.active = "all";
           break;
         case "left":
@@ -64,18 +63,21 @@ export default {
     },
     checktodo(id) {
       this.customFilter('all');
-      this.todos.forEach((todo) => {
+      // const self = this;
+      this.todos.forEach((todo,index,backupTodos) => {
         if (todo._id === id) {
           this.db.get(`${id}`)
             .then(doc => {
               return this.db.put({ _id:id, _rev: doc._rev, text: todo.text, done: !todo.done})
             })
-            .then(() => console.log('todo updated'))
+            .then(() => {
+              console.log('todo updated')
+              backupTodos[index].done = !todo.done;
+            })
             .catch((error) => console.log(error));
-          return !todo.done;
         }
       });
-      this.backupTodos = this.todos;
+      
     },
     deletetodo(id) {
       this.customFilter('all');
@@ -106,8 +108,8 @@ export default {
     this.db
       .allDocs({ include_docs: true })
       .then((r) => {
-        r.rows.forEach((d) => {
-          this.todos.push(d.doc);
+        r.rows.forEach((row) => {
+          this.todos.push(row.doc);
         });
         this.backupTodos = this.todos;
       })
