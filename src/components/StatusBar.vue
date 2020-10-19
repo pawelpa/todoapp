@@ -4,9 +4,9 @@
       <span class="ml-5">Items left:</span>
       <span>{{this.todoLeft}}</span>
       |
-      <span class="cursor" @click="$emit('all')">All todos</span> |
-      <span class="cursor" @click="$emit('left')">Left todos</span> |
-      <span class="cursor" @click="$emit('done')">Done todos</span>
+      <span class="cursor" :class="{ active: active=='all'}" @click="$emit('all')">All todos</span> |
+      <span class="cursor" :class="{ active: active=='left'}" @click="$emit('left')">Left todos</span> |
+      <span class="cursor" :class="{ active: active=='done'}" @click="$emit('done')">Done todos</span>
     </div>
   </div>
 </template>
@@ -15,6 +15,7 @@
 export default {
   props: {
     todos: Array,
+    active: String,
   },
   computed: {
     todoLeft() {
@@ -29,7 +30,7 @@ export default {
   margin-left: 5px;
 }
 .active {
-  text-shadow: blueviolet 0px 0px 2px;
+  text-shadow: green 0px 0px 2px;
 }
 .status span:nth-child(2) {
   color: red;

@@ -6,14 +6,16 @@
       v-on:deletetodo="deletetodo"
       v-on:checktodo="checktodo"
       v-for="todo of todos"
-      :key="todo.id"
+      :key="todo._id"
       :todo="todo"
     />
-    <StatusBar 
-    v-on:all="customFilter('all')"
-    v-on:left="customFilter('left')"
-    v-on:done="customFilter('done')"
-    :todos="todos" />
+    <StatusBar
+      v-on:all="customFilter('all')"
+      v-on:left="customFilter('left')"
+      v-on:done="customFilter('done')"
+      :todos="todos"
+      :active="active"
+    />
   </div>
 </template>
 
@@ -21,7 +23,8 @@
 import Todo from "./components/Todo.vue";
 import AddTodo from "./components/AddTodo.vue";
 import StatusBar from "./components/StatusBar.vue";
-import {v4 as uuid} from 'uuid';
+import { v4 as uuid } from "uuid";
+import PouchDB from "pouchdb";
 export default {
   name: "App",
   components: {
@@ -31,58 +34,85 @@ export default {
   },
   methods: {
     customFilter(what) {
-       switch(what) {
-         case 'done': console.log('done');
-                this.todos = this.backupTodos.filter((t)=>t.done === true)
+      switch (what) {
+        case "done":
+          this.todos = this.backupTodos.filter((t) => t.done === true);
+          this.active = "done";
           break;
-         case 'all': console.log('all');
-            if(this.backupTodos.length > this.todos.length) {
-                  this.todos = this.backupTodos;
-              }
-         break;
-         case 'left': console.log('left');
-               this.todos = this.backupTodos.filter((t)=>t.done !== true )
-         break;
-       }
+        case "all":
+          if (this.backupTodos.length > this.todos.length) {
+            this.todos = this.backupTodos;
+          }
+          this.active = "all";
+          break;
+        case "left":
+          this.todos = this.backupTodos.filter((t) => t.done !== true);
+          this.active = "left";
+          break;
+      }
     },
     addtodo(todo) {
-      this.todos = [
-        ...this.todos,
-        { id: uuid(), text: todo, done: false },
-      ];
-      //console.log(todo);
+      
+      let _id = uuid();
+      this.customFilter("all");
+      this.todos = [...this.todos, { _id, text: todo, done: false }];
       this.backupTodos = this.todos;
+      this.db
+        .put({ _id, text: todo, done: false })
+        .then(() => console.log('Todo added'))
+        .catch((error) => console.log(error));
     },
     checktodo(id) {
-      console.log(id);
+      this.customFilter('all');
       this.todos.forEach((todo) => {
-        if (todo.id === id) {
-          return (todo.done = !todo.done);
+        if (todo._id === id) {
+          this.db.get(`${id}`)
+            .then(doc => {
+              return this.db.put({ _id:id, _rev: doc._rev, text: todo.text, done: !todo.done})
+            })
+            .then(() => console.log('todo updated'))
+            .catch((error) => console.log(error));
+          return !todo.done;
         }
       });
       this.backupTodos = this.todos;
     },
     deletetodo(id) {
-      this.todos = this.todos.filter((i) => i.id != id);
-      this.backupTodos = this.tods;
+      this.customFilter('all');
+      this.db.get(`${id}`)
+      .then((doc) => this.db.remove(doc))
+      .then(() => { 
+          console.log('todo removed');
+          this.todos = this.backupTodos.filter((i) => i._id != id);
+          if (this.todos.length > 0) {
+            this.backupTodos = this.todos;
+          } else {
+        this.backupTodos = [];
+      }
+        })
+      .catch(error => console.log(error));
     },
   },
   data() {
     return {
-      todos: [
-        { id: uuid(), text: "Todo one", done: false },
-        { id: uuid(), text: "Todo two", done: true },
-      ],
+      todos: [],
       backupTodos: [],
+      db: null,
+      active: "all",
     };
   },
   mounted() {
-    this.backupTodos = this.todos;
-  }
-    
-  
-
- 
+    this.db = new PouchDB("Todos");
+    this.db
+      .allDocs({ include_docs: true })
+      .then((r) => {
+        r.rows.forEach((d) => {
+          this.todos.push(d.doc);
+        });
+        this.backupTodos = this.todos;
+      })
+      .catch((error) => console.log(error));
+  },
 };
 </script>
 
