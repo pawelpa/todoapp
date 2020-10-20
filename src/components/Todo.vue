@@ -59,7 +59,7 @@ export default {
   position: relative;
   display: inline-block;
   word-wrap: normal;
-
+  cursor: pointer;
   /*16px width of fake checkbox + 6px distance between fake checkbox and text*/
   padding-left: 22px;
 }
@@ -77,7 +77,7 @@ export default {
 .todo label::before {
   height: 16px;
   width: 16px;
-
+  border-radius: 5px;
   border: 1px solid;
   left: 0px;
 

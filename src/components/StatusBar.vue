@@ -33,7 +33,9 @@ export default {
   text-shadow: green 0px 0px 2px;
 }
 .status span:nth-child(2) {
-  color: red;
+  color: green;
+  font-weight: 600;
+  margin-left: 2px;
 }
 .cursor {
   cursor: pointer;
