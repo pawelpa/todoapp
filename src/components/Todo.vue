@@ -44,7 +44,7 @@ export default {
 .btn {
   background-color: khaki;
   border: none;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   cursor: pointer;
 }
 .done {

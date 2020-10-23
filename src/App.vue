@@ -63,7 +63,6 @@ export default {
     },
     checktodo(id) {
       this.customFilter('all');
-      // const self = this;
       this.todos.forEach((todo,index,backupTodos) => {
         if (todo._id === id) {
           this.db.get(`${id}`)
@@ -103,12 +102,12 @@ export default {
       active: "all",
     };
   },
-  mounted() {
+  created() {
     this.db = new PouchDB("Todos");
     this.db
       .allDocs({ include_docs: true })
-      .then((r) => {
-        r.rows.forEach((row) => {
+      .then((result) => {
+        result.rows.forEach((row) => {
           this.todos.push(row.doc);
         });
         this.backupTodos = this.todos;
