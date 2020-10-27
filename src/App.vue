@@ -134,7 +134,7 @@ h1 {
 
 /*animation effect*/
 .anim-enter-active, .anim-leave-active {
-  transition: all .5s ease;
+  transition: opacity .3s linear;
 }
 .anim-enter, .anim-leave-to {
   opacity: 0;
@@ -143,7 +143,7 @@ h1 {
   opacity: 1;
 }
 .anim-leave {
-  opacity: 1;
+  opacity: 0;
 }
 
 
