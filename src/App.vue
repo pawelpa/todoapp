@@ -2,13 +2,15 @@
   <div id="app">
     <h1>Todo App</h1>
     <AddTodo v-on:addtodo="addtodo" />
+    <transition-group name="anim">
     <Todo
       v-on:deletetodo="deletetodo"
       v-on:checktodo="checktodo"
-      v-for="todo of todos"
+      v-for="todo in todos"
       :key="todo._id"
       :todo="todo"
     />
+    </transition-group>
     <StatusBar
       v-on:all="customFilter('all')"
       v-on:left="customFilter('left')"
@@ -129,4 +131,22 @@ export default {
 h1 {
   margin-bottom: 50px;
 }
+
+/*animation effect*/
+.anim-enter-active, .anim-leave-active {
+  transition: all .5s ease;
+}
+.anim-enter, .anim-leave-to {
+  opacity: 0;
+}
+.anim-enter-to {
+  opacity: 1;
+}
+.anim-leave {
+  opacity: 1;
+}
+
+
+
+
 </style>

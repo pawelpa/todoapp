@@ -1,5 +1,6 @@
 <template>
   <div>
+    
     <div class="todo" :class="{ done: done }">
       <input type="checkbox" v-model="done" :id="todo._id" />
       <label :for="todo._id" v-on:click="$emit('checktodo', todo._id)">{{ todo.text }}</label>
@@ -7,6 +8,7 @@
         <button class="btn" v-on:click="$emit('deletetodo', todo._id)">&times;</button>
       </span>
     </div>
+    
   </div>
 </template>
 
@@ -119,4 +121,7 @@ label {
   overflow: hidden;
   padding: 2px;
 }
+
+
+
 </style>
