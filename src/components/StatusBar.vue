@@ -4,9 +4,9 @@
       <span class="ml-5">Items left:</span>
       <span>{{this.todoLeft}}</span>
       |
-      <span class="cursor" :class="{ active: active=='all'}" @click="$emit('all')">All todos</span> |
-      <span class="cursor" :class="{ active: active=='left'}" @click="$emit('left')">Left todos</span> |
-      <span class="cursor" :class="{ active: active=='done'}" @click="$emit('done')">Done todos</span>
+      <span title="Show all todos" class="cursor" :class="{ active: active=='all'}" @click="$emit('all')">All todos</span> |
+      <span title="Show remaining todos" class="cursor" :class="{ active: active=='left'}" @click="$emit('left')">Left todos</span> |
+      <span title="Show completed todos" class="cursor" :class="{ active: active=='done'}" @click="$emit('done')">Done todos</span>
     </div>
   </div>
 </template>

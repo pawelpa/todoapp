@@ -3,13 +3,13 @@
     <h1>Todo App</h1>
     <AddTodo v-on:addtodo="addtodo" />
     <transition-group name="anim">
-    <Todo
-      v-on:deletetodo="deletetodo"
-      v-on:checktodo="checktodo"
-      v-for="todo in todos"
-      :key="todo._id"
-      :todo="todo"
-    />
+      <Todo
+        v-on:deletetodo="deletetodo"
+        v-on:checktodo="checktodo"
+        v-for="todo in todos"
+        :key="todo._id"
+        :todo="todo"
+      />
     </transition-group>
     <StatusBar
       v-on:all="customFilter('all')"
@@ -43,7 +43,7 @@ export default {
           break;
         case "all":
           this.todos = this.backupTodos;
-           
+
           this.active = "all";
           break;
         case "left":
@@ -53,47 +53,52 @@ export default {
       }
     },
     addtodo(todo) {
-      
       let _id = uuid();
       this.customFilter("all");
       this.todos = [...this.todos, { _id, text: todo, done: false }];
       this.backupTodos = this.todos;
       this.db
         .put({ _id, text: todo, done: false })
-        .then(() => console.log('Todo added'))
+        .then(() => console.log("Todo added"))
         .catch((error) => console.log(error));
     },
     checktodo(id) {
-      this.customFilter('all');
-      this.todos.forEach((todo,index,backupTodos) => {
+      this.customFilter("all");
+      this.todos.forEach((todo, index, backupTodos) => {
         if (todo._id === id) {
-          this.db.get(`${id}`)
-            .then(doc => {
-              return this.db.put({ _id:id, _rev: doc._rev, text: todo.text, done: !todo.done})
+          this.db
+            .get(`${id}`)
+            .then((doc) => {
+              return this.db.put({
+                _id: id,
+                _rev: doc._rev,
+                text: todo.text,
+                done: !todo.done,
+              });
             })
             .then(() => {
-              console.log('todo updated')
+              console.log("todo updated");
               backupTodos[index].done = !todo.done;
             })
             .catch((error) => console.log(error));
         }
       });
-      
     },
     deletetodo(id) {
-      this.customFilter('all');
-      this.db.get(`${id}`)
-      .then((doc) => this.db.remove(doc))
-      .then(() => { 
-          console.log('todo removed');
+      this.customFilter("all");
+      this.db
+        .get(`${id}`)
+        .then((doc) => this.db.remove(doc))
+        .then(() => {
+          console.log("todo removed");
           this.todos = this.backupTodos.filter((i) => i._id != id);
           if (this.todos.length > 0) {
             this.backupTodos = this.todos;
           } else {
-        this.backupTodos = [];
-      }
+            this.backupTodos = [];
+          }
         })
-      .catch(error => console.log(error));
+        .catch((error) => console.log(error));
     },
   },
   data() {
@@ -133,20 +138,18 @@ h1 {
 }
 
 /*animation effect*/
-.anim-enter-active, .anim-leave-active {
-  transition: opacity .3s linear;
+.anim-enter-active,
+.anim-leave-active {
+  transition: opacity 0.3s linear;
 }
-.anim-enter, .anim-leave-to {
+.anim-enter,
+.anim-leave-to {
   opacity: 0;
 }
 .anim-enter-to {
   opacity: 1;
 }
 .anim-leave {
-  opacity: 0;
+  opacity: 0;  
 }
-
-
-
-
 </style>

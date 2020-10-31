@@ -3,9 +3,9 @@
     
     <div class="todo" :class="{ done: done }">
       <input type="checkbox" v-model="done" :id="todo._id" />
-      <label :for="todo._id" v-on:click="$emit('checktodo', todo._id)">{{ todo.text }}</label>
+      <label  title="Click to mark as complete" :for="todo._id" v-on:click="$emit('checktodo', todo._id)">{{ todo.text }}</label>
       <span>
-        <button class="btn" v-on:click="$emit('deletetodo', todo._id)">&times;</button>
+        <button title='Remove' class="btn" v-on:click="$emit('deletetodo', todo._id)">&times;</button>
       </span>
     </div>
     
@@ -80,7 +80,7 @@ export default {
   height: 16px;
   width: 16px;
   border-radius: 5px;
-  border: 1px solid;
+  border: 1px dashed;
   left: 0px;
 
   /*(24px line-height - 16px height of fake checkbox) / 2 - 1px for the border
@@ -97,7 +97,7 @@ export default {
   border-bottom: 2px solid;
 
   transform: rotate(-45deg);
-
+  color: green;
   left: 4px;
   top: 7px;
 }
