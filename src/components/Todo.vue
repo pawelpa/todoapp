@@ -1,14 +1,23 @@
 <template>
   <div>
-    
     <div class="todo" :class="{ done: done }">
       <input type="checkbox" v-model="done" :id="todo._id" />
-      <label  title="Click to mark as complete" :for="todo._id" v-on:click="$emit('checktodo', todo._id)">{{ todo.text }}</label>
+      <label
+        title="Click to mark as complete"
+        :for="todo._id"
+        v-on:click="$emit('checktodo', todo._id)"
+        >{{ todo.text }}</label
+      >
       <span>
-        <button title='Remove' class="btn" v-on:click="$emit('deletetodo', todo._id)">&times;</button>
+        <button
+          title="Remove"
+          class="btn"
+          v-on:click="$emit('deletetodo', todo._id)"
+        >
+          &times;
+        </button>
       </span>
     </div>
-    
   </div>
 </template>
 
@@ -48,6 +57,19 @@ export default {
   border: none;
   font-size: 1.2rem;
   cursor: pointer;
+  outline: none;
+}
+
+.btn:hover {
+  border: 1px dashed green;
+  border-radius: 50%;
+  transform: scale(0.60);
+
+}
+.btn:active {
+  border: 2px solid green;
+  border-radius: 50%;
+  transform: scale(0.70);
 }
 .done {
   text-decoration: line-through;
@@ -121,7 +143,4 @@ label {
   overflow: hidden;
   padding: 2px;
 }
-
-
-
 </style>
