@@ -50,12 +50,15 @@ export default {
   cursor: pointer;
   position: relative;
   border-radius: 5px;
+  padding: 3px;
 }
+
+
 
 .btn {
   background-color: khaki;
   border: none;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   cursor: pointer;
   outline: none;
 }
@@ -63,13 +66,13 @@ export default {
 .btn:hover {
   border: 1px dashed green;
   border-radius: 50%;
-  transform: scale(0.60);
-
+  transform: scale(0.6);
 }
 .btn:active {
   border: 2px solid green;
   border-radius: 50%;
-  transform: scale(0.70);
+  transform: scale(0.7);
+  outline: none;
 }
 .done {
   text-decoration: line-through;
