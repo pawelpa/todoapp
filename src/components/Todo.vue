@@ -66,7 +66,7 @@ export default {
 .btn:hover {
   border: 1px dashed green;
   border-radius: 50%;
-  transform: scale(0.6);
+  font-size: 1rem;
 }
 .btn:active {
   border: 2px solid green;
@@ -104,8 +104,8 @@ export default {
 .todo label::before {
   height: 16px;
   width: 16px;
-  border-radius: 5px;
-  border: 1px dashed;
+  border-radius: 50%;
+  border: 1px dashed green;
   left: 0px;
 
   /*(24px line-height - 16px height of fake checkbox) / 2 - 1px for the border
